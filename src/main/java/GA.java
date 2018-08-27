@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Arrays;
 
 public class GA {
 
@@ -118,7 +119,6 @@ public class GA {
 
                     populationCosts[p] = individualCost;
                 }
-                printSolution(POPULATION_SIZE, gen, populationCosts);
             }
 
 
@@ -251,43 +251,39 @@ public class GA {
             population.setIndividual(b, offspring);
         }
 
-        System.out.println("File Name: " + fileName);
-        System.out.println("Orders: " + data.getNumberOfOrders());
+        System.out.println("Number of Orders: " + data.getNumberOfOrders());
 
         int smallest = findSmallest(populationCosts, POPULATION_SIZE);
         float[] distances = new float[data.getMaxVehicles()];
+        int[][] routes = new int[data.getMaxVehicles()][data.getNumberOfPoints()];
+
         for(int v = 0; v < data.getMaxVehicles(); v++) {
             Cluster line = population.getCluster(smallest, v);
             route.getOrders(line);
-            int sum = 0;
-            int[] orders = route.getRoute();
-            for (int o = 0; o < orders.length; o++) {
-                sum += orders[o];
-            }
-
-            int ld = 0;
-            int[] load = route.getNumberOfOrdersInVehicleAfterServicingNode();
-            for (int l = 0; l < load.length; l++) {
-                ld = ld + load[l];
-            }
-
-            int length = load.length;
-            float orderStops = length - 2;
-            System.out.println();
-            System.out.println("Route: " + v);
-            System.out.println("Number of stops after servicing node: " + (int)ld);
-            System.out.println("Total Number of stops: " + orderStops);
 
             distances[v] = route.getTotalRouteDistance();
+            routes[v] = route.getRoute();
         }
 
-        System.out.println("Distances");
+        System.out.println();
+        System.out.println("Distances and Routes per Vehicle");
+        System.out.println("================================================");
+        System.out.println();
+
         float totalDist = 0;
         for (int v = 0; v < distances.length; v++) {
-            System.out.println("Route " + v + ": " + distances[v]);
+            System.out.println("------------------------------------------------");
+            System.out.println("Vehicle " + v);
+            System.out.println("Distance: " + distances[v] + " Km");
+            System.out.println("Route: " + Arrays.toString(routes[v]));
+            System.out.println("------------------------------------------------");
+            System.out.println();
+
             totalDist += distances[v];
         }
-        System.out.println("Total distance: " + totalDist);
+        System.out.println();
+        System.out.println("Total distance: " + totalDist + " Km");
+        System.out.println("Total Cost: " + totalDist * data.DISTANCE_WEIGHT);
     }
 
 
@@ -318,8 +314,9 @@ public class GA {
         }
 
         int[] probability = new int[populationSize];
-        probability[0] = (int) (B / (populationCosts[0] * S));
+
         // probability * B of selecting individual 0 as parent A
+        probability[0] = (int) (B / (populationCosts[0] * S));
 
         // Default parent if no parent is chosen because of
         // numeration errors
@@ -339,22 +336,5 @@ public class GA {
             }
         }
         return parent1;
-    }
-
-
-    public static void printSolution(int populationSize, int generation, float[] populationCosts) {
-        int smallest = findSmallest(populationCosts, populationSize);
-        System.out.println();
-        System.out.println("***** SOLUTION ******");
-        System.out.println("Generation: " + generation);
-        System.out.println("Smallest Cost: " + populationCosts[smallest]);
-
-        float[] crowds = new float[populationCosts.length];
-        for (int crowd = 0; crowd < crowds.length; crowd++) {
-            crowds[crowd] = -populationCosts[crowd];
-        }
-        smallest = findSmallest(crowds, populationSize);
-        System.out.println("Highest Cost: " + populationCosts[smallest]);
-        System.out.println();
     }
 }

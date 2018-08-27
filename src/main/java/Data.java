@@ -3,9 +3,15 @@ import java.io.IOException;
 public class Data {
     private int stops;
     private float[][] coordinates;
+
+    // The constants below are arbitrarily chosen.
+    // In real application, these would be determined by the available resources.
     private final int MAX_VEHICLES = 5;
     private final int MAX_VEHICLE_CAPACITY = 2;
     private final int MAX_CLUSTERS = MAX_VEHICLES;
+
+    // The assumed cost per km
+    final int DISTANCE_WEIGHT = 15;
 
     public Data(String fileName) throws IOException {
         Reader reader = new Reader(fileName);
@@ -28,7 +34,7 @@ public class Data {
     }
 
     int getNumberOfOrders() {
-        return (getNumberOfStops() - 1) / 2;
+        return getNumberOfStops() / 2;
     }
 
     int getMaxClusters() {

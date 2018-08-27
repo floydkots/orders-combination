@@ -42,3 +42,71 @@ These values were obtained by running simulations and picking the best numbers. 
 use a modified, and greedy **Nearest Neighbour Search** to determine the best route to follow within the
 cluster.
 
+### Input
+The list of coordinates is supplied as a text file. After the header line, the first pair of coordinates
+represents the depot. Which is the assumed location of the partners at the time the orders are made.
+
+Within the list of coordinates, the first half of coordinate pairs are the pickup locations, while the
+remaining half as the drop-off locations.
+
+The sample orders are found in the `src/main/java/resources/orders/` folder.
+
+### Output
+The program makes output in the following format. This sample output is taken from running it on
+the `6_orders.txt` input file.
+
+It first outputs overall details of the Genetic Algorithm, and the input.
+
+Thereafter, it outputs the distances and routes of the final optimum clustering that was settled on.
+
+Finally, it outputs the total distance and total cost of the pickups and drop-offs.
+
+`Route: [0, 0]` for instance, indicates that the vehicle did not leave the depot, i.e it's route was
+from the depot, to the depot, without any intermediate stops.
+
+`Route: [0, 1, 7, 0]` indicates that the vehicle started from the depot at `0`, then to the stops `1` and `7`, to pick and drop the order respectively, and finally back to the depot.
+
+```text
+Worst Individuals: 5
+Population: 50
+Generations: 15000
+File: orders/6_orders.txt
+Number of Orders: 6
+
+Distances and Routes per Vehicle
+================================================
+
+------------------------------------------------
+Vehicle 0
+Distance: 0.0 Km
+Route: [0, 0]
+------------------------------------------------
+
+------------------------------------------------
+Vehicle 1
+Distance: 1318.05 Km
+Route: [0, 1, 7, 0]
+------------------------------------------------
+
+------------------------------------------------
+Vehicle 2
+Distance: 0.0 Km
+Route: [0, 0]
+------------------------------------------------
+
+------------------------------------------------
+Vehicle 3
+Distance: 4748.51 Km
+Route: [0, 2, 5, 8, 4, 10, 11, 6, 3, 12, 9, 0]
+------------------------------------------------
+
+------------------------------------------------
+Vehicle 4
+Distance: 0.0 Km
+Route: [0, 0]
+------------------------------------------------
+
+
+Total distance: 6066.5596 Km
+Total Cost: 90998.39
+```

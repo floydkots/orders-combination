@@ -2,7 +2,6 @@ public class Route {
     private int ordersInCluster;
     private int slotsInCluster;
 
-    private final int DISTANCE_WEIGHT = 15;
     private final int NO_NODE = -2;
 
     private int[] orderOfOrdersInRoute;
@@ -410,7 +409,7 @@ public class Route {
      * @return
      */
     public float getMoveCost(int currentNode, int nextNode) {
-        return DISTANCE_WEIGHT * distance.getDistance(currentNode, nextNode);
+        return data.DISTANCE_WEIGHT * distance.getDistance(currentNode, nextNode);
     }
 
 
@@ -446,7 +445,7 @@ public class Route {
         // TODO Find way to simplify, deduplicate
         assert currentDistance[currentDistance.length - 1] == getTotalRouteDistance();
 
-        return getTotalRouteDistance() * DISTANCE_WEIGHT;
+        return getTotalRouteDistance() * data.DISTANCE_WEIGHT;
     }
 
 
